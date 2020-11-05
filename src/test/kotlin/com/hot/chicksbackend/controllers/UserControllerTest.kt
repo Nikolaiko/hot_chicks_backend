@@ -1,6 +1,6 @@
 package com.hot.chicksbackend.controllers
 
-import com.hot.chicksbackend.domain.User
+import com.hot.chicksbackend.domain.user.User
 import com.hot.chicksbackend.repositories.UserRepository
 import org.junit.Before
 import org.junit.Test
