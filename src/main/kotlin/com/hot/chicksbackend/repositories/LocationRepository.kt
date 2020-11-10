@@ -2,12 +2,11 @@ package com.hot.chicksbackend.repositories
 
 import com.hot.chicksbackend.domain.locations.Location
 import com.hot.chicksbackend.domain.user.User
-import org.springframework.data.mongodb.repository.Query
+import com.hot.chicksbackend.domain.user.UserLocations
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import reactor.core.publisher.Mono
 
-interface UserRepository {
-    fun isUserExists(user: User): Mono<Boolean>
-    fun addUser(user: User): Mono<User>
-    fun getUserByNameAndPassword(name: String, password: String): Mono<User>
+interface LocationRepository {
+    fun getLocationByName(name: String): Mono<Location>
+    fun addUserLocation(location: UserLocations): Mono<UserLocations>
 }

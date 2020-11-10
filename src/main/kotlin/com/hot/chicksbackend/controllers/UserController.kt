@@ -20,7 +20,7 @@ class UserController(
 ) {
     @PostMapping("/api/v1/users/login")
     @ResponseBody
-    suspend fun loginUser(@RequestBody data: UserLoginData): ResponseEntity<String> {
+    suspend fun loginUser(data: UserLoginData): ResponseEntity<String> {
         val selectedUser = userService.loginUser(data.name, data.password)
         return when(selectedUser) {
             null -> {
