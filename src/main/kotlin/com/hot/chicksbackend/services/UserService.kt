@@ -39,46 +39,50 @@ class UserService @Autowired constructor(
     }
 
     suspend fun registerUser(name: String, password: String) = coroutineScope<OperationResult<User>> {
-        val existingUser = userRepository.getUserByNameAndPassword(name, password).awaitFirstOrNull()
-        when(existingUser) {
-            null -> {
-                val insertedUser = userRepository.addUser(User(null, name, password)).awaitFirstOrNull()
-                if (insertedUser == null) {
-                    OperationResult<User>(ERROR_ADDING_USER, null)
-                } else {
-                    //val startUpLocation = locationRepository.getLocationByName(INITIAL_LOCATION_NAME).awaitFirstOrNull()
-                    //val userLocations = UserLocations(null, startUpLocation?.locationId!!, insertedUser.userId!!)
-                    //val resources = UserResources(null, TOKENS_INITIAL_VALUE, insertedUser.userId)
+        println(template.mongoDatabase.awaitFirst().name)
+        val randomGuid = UUID.randomUUID().toString()
+        val dt1 = Date()
+        println(template.insert(UserProfile(null, "1234", randomGuid, dt1), "user_profiles").awaitFirst())
 
-                    OperationResult<User>("OK", insertedUser)
-                }
-            }
-            else -> {
-                println(template.mongoDatabase.awaitFirst().name)
-                val randomGuid = UUID.randomUUID().toString()
-                val dt1 = Date()
-                println(template.insert(UserProfile(null, "1234", randomGuid, dt1), "user_profiles").awaitFirst())
+        println(dt1)
 
-                println(dt1)
+        Thread.sleep(3000)
 
-                Thread.sleep(3000)
+        val dt2 = Date()
 
-                val dt2 = Date()
+        println(dt2)
 
-                println(dt2)
-
-                template.findOne(
-                        Query(Criteria.where("userId").isEqualTo(randomGuid).and("updatedAt").gt(dt2)),
-                        UserProfile::class.java
-                ).
-                switchIfEmpty {
-                  println("Empty!!!")
-                    UserProfile(null, "Default", "Default", Date()).toMono()
-                }.awaitFirst()
+        template.findOne(
+                Query(Criteria.where("userId").isEqualTo(randomGuid).and("updatedAt").gt(dt2)),
+                UserProfile::class.java
+        ).
+        switchIfEmpty {
+            println("Empty!!!")
+            UserProfile(null, "Default", "Default", Date()).toMono()
+        }.awaitFirst()
 
 
-                OperationResult<User>(USER_ALREADY_EXISTS, null)
-            }
-        }
+
+        OperationResult<User>(USER_ALREADY_EXISTS, null)
+//        val existingUser = userRepository.getUserByNameAndPassword(name, password).awaitFirstOrNull()
+//        when(existingUser) {
+//            null -> {
+//                val insertedUser = userRepository.addUser(User(null, name, password)).awaitFirstOrNull()
+//                if (insertedUser == null) {
+//                    OperationResult<User>(ERROR_ADDING_USER, null)
+//                } else {
+//                    val startUpLocation = locationRepository.getLocationByName(INITIAL_LOCATION_NAME).awaitFirstOrNull()
+//                    val userLocations = UserLocations(null, startUpLocation?.locationId!!, insertedUser.userId!!)
+//                    val resources = UserResources(null, TOKENS_INITIAL_VALUE, insertedUser.userId)
+//
+//                    OperationResult<User>("OK", insertedUser)
+//                }
+//            }
+//            else -> {
+//                OperationResult<User>(USER_ALREADY_EXISTS, null)
+//            }
+//        }
+
+
     }
 }
