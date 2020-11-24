@@ -26,6 +26,15 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
+
+	implementation("com.github.cloudyrock.mongock:mongock-bom:4.1.19")
+	implementation("com.github.cloudyrock.mongock:mongock-spring-v5:4.1.19")
+	implementation("com.github.cloudyrock.mongock:mongodb-springdata-v3-driver:4.1.19")
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+
+
+
+
 	testImplementation ("junit:junit:4.12")
 	testImplementation ("org.jetbrains.kotlin:kotlin-test-junit")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
