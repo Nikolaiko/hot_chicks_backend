@@ -35,13 +35,14 @@ class UserService @Autowired constructor(
                     OperationResult<User>(ERROR_ADDING_USER, null)
                 } else {
                     val startUpLocation = locationRepository.getLocationByName(INITIAL_LOCATION_NAME).awaitFirstOrNull()
-                    println(startUpLocation)
-                    val userLocations = UserLocations(null, startUpLocation?.locationId!!, insertedUser.userId!!)
-                    println( locationRepository.addUserLocation(userLocations).awaitFirstOrNull())
 
+                    val userLocations = UserLocations(null, startUpLocation?.locationId!!, insertedUser.userId!!)
+                    locationRepository.addUserLocation(userLocations).awaitFirstOrNull()
 
                     val resources = UserResources(null, TOKENS_INITIAL_VALUE, insertedUser.userId)
-                    println(resourcesRepository.initUserResources(resources).awaitFirstOrNull())
+                    resourcesRepository.initUserResources(resources).awaitFirstOrNull()
+
+                    
 
                     OperationResult<User>("OK", insertedUser)
                 }
