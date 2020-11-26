@@ -13,5 +13,5 @@ class MongoResourcesRepository @Autowired constructor(
 ) : ResourcesRepository {
 
     override fun initUserResources(resources: UserResources) = resourcesCollection.insert(resources)
-
+    override fun getUserResources(userId: String): Mono<UserResources> = resourcesCollection.getUserResources(userId)
 }

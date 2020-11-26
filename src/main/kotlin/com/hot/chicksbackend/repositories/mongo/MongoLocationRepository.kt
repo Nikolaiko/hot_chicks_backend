@@ -16,4 +16,6 @@ class MongoLocationRepository @Autowired constructor (
         override fun getLocationByName(name: String) = locationCollection.getLocationByName(name)
 
         override fun addUserLocation(location: UserLocations) = userLocationCollection.insert(location)
+
+        override fun getUserLocations(userId: String) = userLocationCollection.getUserLocations(userId)
 }

@@ -5,4 +5,5 @@ import reactor.core.publisher.Mono
 
 interface ResourcesRepository {
     fun initUserResources(resources: UserResources): Mono<UserResources>
+    fun getUserResources(userId: String): Mono<UserResources>
 }

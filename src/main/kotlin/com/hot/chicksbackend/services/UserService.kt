@@ -1,14 +1,14 @@
 package com.hot.chicksbackend.services
 
-import com.hot.chicksbackend.ERROR_ADDING_USER
-import com.hot.chicksbackend.INITIAL_LOCATION_NAME
-import com.hot.chicksbackend.TOKENS_INITIAL_VALUE
-import com.hot.chicksbackend.USER_ALREADY_EXISTS
+import com.hot.chicksbackend.*
 import com.hot.chicksbackend.domain.common.OperationResult
+import com.hot.chicksbackend.domain.locations.MissionStatus
 import com.hot.chicksbackend.domain.user.User
 import com.hot.chicksbackend.domain.user.UserLocations
+import com.hot.chicksbackend.domain.user.UserMissions
 import com.hot.chicksbackend.domain.user.UserResources
 import com.hot.chicksbackend.repositories.LocationRepository
+import com.hot.chicksbackend.repositories.MissionRepository
 import com.hot.chicksbackend.repositories.ResourcesRepository
 import com.hot.chicksbackend.repositories.UserRepository
 import kotlinx.coroutines.coroutineScope
@@ -20,7 +20,8 @@ import org.springframework.stereotype.Service
 class UserService @Autowired constructor(
         private val userRepository: UserRepository,
         private val locationRepository: LocationRepository,
-        private val resourcesRepository: ResourcesRepository
+        private val resourcesRepository: ResourcesRepository,
+        private val missionRepository: MissionRepository
 ) {
     suspend fun loginUser(name: String, password: String) = coroutineScope<User?> {
         userRepository.getUserByNameAndPassword(name, password).awaitFirstOrNull()
@@ -42,7 +43,14 @@ class UserService @Autowired constructor(
                     val resources = UserResources(null, TOKENS_INITIAL_VALUE, insertedUser.userId)
                     resourcesRepository.initUserResources(resources).awaitFirstOrNull()
 
-                    
+                    var userMission = UserMissions(null, INITIAL_MISSION_1_NAME, insertedUser.userId, MissionStatus.notCompleted)
+                    missionRepository.addUserMission(userMission).awaitFirstOrNull()
+
+                    userMission = UserMissions(null, INITIAL_MISSION_2_NAME, insertedUser.userId, MissionStatus.notCompleted)
+                    missionRepository.addUserMission(userMission).awaitFirstOrNull()
+
+                    userMission = UserMissions(null, INITIAL_MISSION_3_NAME, insertedUser.userId, MissionStatus.notCompleted)
+                    missionRepository.addUserMission(userMission).awaitFirstOrNull()
 
                     OperationResult<User>("OK", insertedUser)
                 }

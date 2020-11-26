@@ -10,4 +10,8 @@ object EntityParser {
     fun <T>entityToString(entity: T): String {
         return mapper.writeValueAsString(entity)
     }
+
+    fun <T>listOfEntitiesToString(list: List<T>): String {
+        return mapper.writeValueAsString(list)
+    }
 }
